@@ -1,4 +1,4 @@
-# MATLAB-Communications-System-Model-Implementation
+# Communications System Model Implementation in MATLAB
 
  Implementing key functions associated with a digital transmitter (a mapper and a modulator) and a digital receiver (the demapper and the demodulator), and carrying out basic simulations to assess the behaviour of different signalling schemes
 
@@ -47,9 +47,9 @@ The function ‘demap’ converts a stream of symbols (rx_symbols) onto a stream
 ## Mapping schemes
 
  Mapping in the three schemes can be represented as shown. Therefore, the alphabets for each scheme will be as follows:
-    1. Binary Unipolar Scheme: A = {0,1}
-    2. Binary Polar Scheme: A = {-1,1}
-    3. Quaternary Scheme: A = {-3,-1,1,3}
+        1. Binary Unipolar Scheme: A = {0,1}
+        2. Binary Polar Scheme: A = {-1,1}
+        3. Quaternary Scheme: A = {-3,-1,1,3}
 
 ### Algorithm of map function
 
@@ -76,29 +76,29 @@ The function ‘demap’ converts a stream of symbols (rx_symbols) onto a stream
 
 ### Algorithm of demodulate function
 
-Define function demodulate which accepts three parameters rx_signal, Ts and nsymbols
-Define global variable Tsampling
-Define vector t with numbers 0 to Number of symbols*Ts with a spacing of Tsampling
-Initialise rx_symbols with zeros
-(Note: The length of rx_symbols is the length of vector nsymbols)
-Next, to demodulate the symbols onto the signal use the following steps
-    for k = 1:nsymbols
-    rx_symbols(k) = Tsampling * sum(rx_signal .* (1/sqrt(Ts) *rectpuls(t- Ts/2-(k-1)*Ts,Ts))) ;
-End of function
+    Define function demodulate which accepts three parameters rx_signal, Ts and nsymbols
+    Define global variable Tsampling
+    Define vector t with numbers 0 to Number of symbols*Ts with a spacing of Tsampling
+    Initialise rx_symbols with zeros
+    (Note: The length of rx_symbols is the length of vector nsymbols)
+    Next, to demodulate the symbols onto the signal use the following steps
+        for k = 1:nsymbols
+        rx_symbols(k) = Tsampling * sum(rx_signal .* (1/sqrt(Ts) *rectpuls(t- Ts/2-(k-1)*Ts,Ts))) ;
+    End of function
 
 ### Algorithm of demapfunction
 
-Define function demap which accepts two parameters rx_symbols and alphabet
-Initialise the matrix rx_bits with zeros
-(Note: The length of rx_bits is the length of vector log2(Number of alphabets)*length(rx_symbols)
-Next, to demap the symbols onto the signal use the following steps6:
-   for k1 = 1:length(rx_symbols)
-     aux = Inf;
-   for k2 = 1:length(alphabet)
-   if (rx_symbols(k1) - alphabet(k2))^2 < aux
-   aux = (rx_symbols(k1) - alphabet(k2))^2 ; rx_bits(:,k1) = de2bi(k2-1,log2(length(alphabet)))' ;
-   end
-  end
-end
-Reshape rx_bits into a vector of size 1xlength(rx_bits)*log2(Number of alphabets)
-End of function
+    Define function demap which accepts two parameters rx_symbols and alphabet
+    Initialise the matrix rx_bits with zeros
+    (Note: The length of rx_bits is the length of vector log2(Number of alphabets)*length(rx_symbols)
+    Next, to demap the symbols onto the signal use the following steps6:
+    for k1 = 1:length(rx_symbols)
+        aux = Inf;
+    for k2 = 1:length(alphabet)
+    if (rx_symbols(k1) - alphabet(k2))^2 < aux
+    aux = (rx_symbols(k1) - alphabet(k2))^2 ; rx_bits(:,k1) = de2bi(k2-1,log2(length(alphabet)))' ;
+    end
+    end
+    end
+    Reshape rx_bits into a vector of size 1xlength(rx_bits)*log2(Number of alphabets)
+    End of function
